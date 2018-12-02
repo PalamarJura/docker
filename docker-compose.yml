@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+
+  nginx:
+    image: nginx
+    volumes:
+      - ./application:/var/www
+      - ./container/nginx/conf.d:/etc/nginx/conf.d
+      - ./container/nginx/log:/var/log/nginx
+    ports:
+      - '8080:80'
+    links:
+      - php
+
+  php:
+    build:
+      context: ./container/php
+    volumes:
+      - ./container/php/php.ini:/usr/local/etc/php/php.ini
+      - ./application:/var/www
